@@ -17,6 +17,10 @@ ENV HADOOP_CONF_DIR             ${HADOOP_HOME}/etc/hadoop
 ENV SPARK_VERSION               3.0.1
 #ENV SPARK_HOME                  spark-${SPARK_VERSION}
 ENV SPARK_HOME               spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION_FOR_SPARK}
+ENV PYSPARK_PYTHON              python3
+
+ENV PYTHONHASHSEED 1
+
 # SPARK_PACKAGE
 # Copy Files
 WORKDIR .
@@ -42,6 +46,7 @@ RUN apt-get update \
     && export HADOOP_CONF_DIR=${HADOOP_CONF_DIR} \
     && export SPARK_VERSION=${SPARK_VERSION} \
     && export SPARK_HOME=${SPARK_HOME} \
+    && export PYSPARK_PYTHON=${PYSPARK_PYTHON} \
     #&& export SPARK_PACKAGE=${SPARK_PACKAGE} \
 # Bug fix for openjdk-8 on Debian
     && mkdir -p /usr/share/man/man1 \
@@ -72,3 +77,5 @@ RUN chmod 0600 ~/.ssh/authorized_keys
 # Final Command
 #WORKDIR $SPARK_HOME
 ENTRYPOINT ["sh","-c","./start.sh && ${SPARK_HOME}/bin/spark-submit --class org.apache.spark.examples.JavaSparkPi ${SPARK_HOME}/examples/jars/spark-examples_2.12-3.0.1.jar"]
+
+#ENTRYPOINT ["sh","-c","./start.sh && ${SPARK_HOME}/bin/pyspark"]

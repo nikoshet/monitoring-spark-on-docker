@@ -66,9 +66,13 @@ services:
         hostname: master
         ports:
             - 8080:8080
+            - 8081:8081
             - 7077:7077
             - 4040:4040
             - 50070:50070 #Hadoop
+            #- '22:22' # ??
         environment:
             - PYTHONUNBUFFERED=1
-            - "USER=root"
+            - "HDFS_NAMENODE_USER=root"
+            - "HDFS_DATANODE_USER=root"
+            - "HDFS_SECONDARYNAMENODE_USER=root"

@@ -73,7 +73,7 @@ install_spark() {
     wget https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION_FOR_SPARK}.tgz
 	tar -xzf spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION_FOR_SPARK}.tgz
     #mv ${SPARK_PACKAGE} ${SPARK_HOME} 
-    rm spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION_FOR_SPARK}.tar.gz
+    rm spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION_FOR_SPARK}.tgz
     chown -R root:root ${SPARK_HOME}
 
     #chown -R root:root ${SPARK_PACKAGE}
