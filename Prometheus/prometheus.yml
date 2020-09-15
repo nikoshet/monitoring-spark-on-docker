@@ -39,7 +39,7 @@ scrape_configs:
   - job_name: 'spark'
     scrape_interval: 10s
     static_configs:
-      - targets: ['localhost:8080']
+      - targets: ['localhost:4040/api/v1']
         labels:
           group:  'spark'
           instance: 'spark-master'
