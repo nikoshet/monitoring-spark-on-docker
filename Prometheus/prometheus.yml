@@ -1,0 +1,46 @@
+# my global config
+global:
+  scrape_interval:     10s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 10s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  # scrape_timeout is set to the global default (10s).
+  external_labels:
+    monitor:  'Spark-monitoring'
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      # - alertmanager:9093
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+  # - 'prometheus.yml'
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+
+##############
+# Prometheus #  
+##############
+  - job_name: 'prometheus'
+    scrape_interval: 10s
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
+    static_configs:
+      - targets: ['localhost:9090'] 
+    
+###############
+# Spark Master #  
+###############
+  - job_name: 'spark'
+    scrape_interval: 10s
+    static_configs:
+      - targets: ['localhost:4040','localhost:8080','localhost:9100']
+        labels:
+          group:  'spark'
+          instance: 'spark-master'
+    metrics_path: '/api/v1'
