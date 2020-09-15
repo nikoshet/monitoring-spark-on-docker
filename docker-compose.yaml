@@ -49,10 +49,23 @@ services:
         container_name: cadvisor
         restart:  unless-stopped
         ports:
-            - 8080:8080
+            - 9080:8080
         volumes:
             - /:/rootfs:ro
             - /var/run:/var/run:rw
             - /sys:/sys:ro
             - /var/lib/docker/:/var/lib/docker:ro
         privileged: true
+
+    # Spark
+    spark-master:
+        build:
+            context: ./Spark
+            dockerfile: Dockerfile
+        container_name: spark-master
+        ports:
+            - 8080:8080
+            - 7077:7077
+            - 4040:4040
+        environment:
+            - PYTHONUNBUFFERED=1

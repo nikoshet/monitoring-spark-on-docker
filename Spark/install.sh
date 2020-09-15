@@ -2,35 +2,35 @@
 
 # Environment Variables
 # JAVA
-JAVA_HOME = '/usr/lib/jvm/java-8-openjdk-amd64/'
+echo 'JAVA_HOME = /usr/lib/jvm/java-8-openjdk-amd64/'
 # HADOOP
-HADOOP_VERSION = '3.2'
-HADOOP_HOME = '/usr/hadoop-${HADOOP_VERSION}'
-HADOOP_CONF_DIR = '${HADOOP_HOME}/etc/hadoop'
+echo 'HADOOP_VERSION = "3.2"'
+echo 'HADOOP_HOME = /usr/hadoop-${HADOOP_VERSION}'
+echo 'HADOOP_CONF_DIR = ${HADOOP_HOME}/etc/hadoop'
 # SPARK
-SPARK_VERSION = '3.0.1'
-SPARK_HOME = '/usr/spark-${SPARK_VERSION}'
-SPARK_PACKAGE = 'spark-${SPARK_VERSION}-bin${HADOOP_VERSION}'
+echo 'SPARK_VERSION = "3.0.1"'
+echo 'SPARK_HOME = /usr/spark-${SPARK_VERSION}'
+echo 'SPARK_PACKAGE = spark-${SPARK_VERSION}-bin${HADOOP_VERSION}'
 
 
 # Functions For Installation
-install_python{
-    apt-get install -y python3.8 python3-setuptools
+install_python() {
+    apt-get install -y python3 python3-setuptools
     ln -s /usr/bin/python3 /usr/bin/python 
-
-    echo 'python -version'
+    python --version
 }
 
-install_java{
-    apt-get install openjdk-8-jdk-headless
-    echo 'java -version'
+install_java() {
+    apt-get install -y openjdk-8-jdk
 
     echo 'export JAVA_HOME=${JAVA_HOME}' >> ~/.bashrc
+    echo 'export PATH=${JAVA_HOME}/jre/bin:$PATH' >> ~/.bashrc
     source ~/.bashrc
+    java -version
 }
 
 
-install_hadoop{
+install_hadoop() {
 	wget https://archive.apache.org/dist/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz
     tar -xzf hadoop-${HADOOP_VERSION}.tar.gz
     rm -rf ${HADOOP_HOME}/share/doc 
@@ -42,7 +42,7 @@ install_hadoop{
     source ~/.bashrc
 }
 
-install_spark{
+install_spark() {
     wget https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz
 	tar -xzf spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz
     mv /usr/$SPARK_PACKAGE $SPARK_HOME 
@@ -56,7 +56,8 @@ install_spark{
 
 
 
-
+echo "STARTING INSTALLATION OF PYTHON"
+install_python
 
 echo "STARTING INSTALLATION OF JAVA"
 install_java
