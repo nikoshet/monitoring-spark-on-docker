@@ -31,12 +31,18 @@ COPY start.sh ./
 RUN apt-get update \
     && apt-get upgrade -y \
 # Set locales
-    && export LANGUAGE=${LANG} \
-    && export LANG=${LANG} \
+    #&& export LANGUAGE=${LANG} \
+    #&& export LANG=${LANG} \
     && apt-get install -y locales \
     #&& locale-gen ${LANG}  \
-    && echo "export LANG=${LANG}" > /etc/profile.d/locale.sh \
+    #&& echo "export LANG=${LANG}" > /etc/profile.d/locale.sh \
+
     && dpkg-reconfigure locales \
+    && echo "LC_ALL=${LANG}" >> /etc/environment \
+    && echo "${LANG} UTF-8" >> /etc/locale.gen \
+    && echo "LANG=${LANG}" > /etc/locale.conf \
+
+    && locale-gen en_US.UTF-8 \
 # Export Env Variables
     && export JAVA_HOME=${JAVA_HOME} \
     && export PATH=${JAVA_HOME}/jre/bin:$PATH \
@@ -59,6 +65,8 @@ RUN apt-get update \
         openssh-server \
         procps \
         sudo \
+        scala \
+        git \
     #&& ls \
     && chmod +x *.sh \
     && ./install.sh \

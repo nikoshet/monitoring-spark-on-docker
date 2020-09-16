@@ -46,19 +46,19 @@ install_hadoop() {
 		echo "master" > ${HADOOP_HOME}/etc/hadoop/slaves
 		#echo "slave" >> /home/user/hadoop-2.7.7/etc/hadoop/slaves
 
-    # Edit core-site.xml to set hdfs default path to hdfs://master:9000
-		CORE_SITE_CONTENT="\t<property>\n\t\t<name>fs.default.name</name>\n\t\t<value>hdfs://master:9000</value>\n\t</property>"
+    # Edit core-site.xml to set hdfs default path to hdfs://master:9000                         #master
+		CORE_SITE_CONTENT="\t<property>\n\t\t<name>fs.default.name</name>\n\t\t<value>hdfs://localhost:9000</value>\n\t</property>"
 		INPUT_CORE_SITE_CONTENT=$(echo $CORE_SITE_CONTENT | sed 's/\//\\\//g')
 		sed -i "/<\/configuration>/ s/.*/${INPUT_CORE_SITE_CONTENT}\n&/" ${HADOOP_HOME}/etc/hadoop/core-site.xml
 
 
-    # Edit hdfs-site.xml to set hadoop file system parameters
-		HDFS_SITE_CONTENT="\t<property>\n\t\t<name>dfs.replication</name>\n\t\t<value>2</value>\n\t\t<description>Default block replication.</description>\n\t</property>"
-		HDFS_SITE_CONTENT="${HDFS_SITE_CONTENT}\n\t<property>\n\t\t<name>dfs.namenode.name.dir</name>\n\t\t<value>/home/user/hdfsname</value>\n\t</property>"
-		HDFS_SITE_CONTENT="${HDFS_SITE_CONTENT}\n\t<property>\n\t\t<name>dfs.datanode.data.dir</name>\n\t\t<value>/home/user/hdfsdata</value>\n\t</property>"
-		HDFS_SITE_CONTENT="${HDFS_SITE_CONTENT}\n\t<property>\n\t\t<name>dfs.blocksize</name>\n\t\t<value>64m</value>\n\t\t<description>Block size</description>\n\t</property>"
-		HDFS_SITE_CONTENT="${HDFS_SITE_CONTENT}\n\t<property>\n\t\t<name>dfs.webhdfs.enabled</name>\n\t\t<value>true</value>\n\t</property>"
-		HDFS_SITE_CONTENT="${HDFS_SITE_CONTENT}\n\t<property>\n\t\t<name>dfs.support.append</name>\n\t\t<value>true</value>\n\t</property>"
+    # Edit hdfs-site.xml to set hadoop file system parameters  
+		HDFS_SITE_CONTENT="\t<property>\n\t\t<name>dfs.replication</name>\n\t\t<value>2</value>\n\t\t<description>Default block replication.</description>\n\t</property>
+        \n\t<property>\n\t\t<name>dfs.namenode.name.dir</name>\n\t\t<value>/home/user/hdfsname</value>\n\t</property>
+        \n\t<property>\n\t\t<name>dfs.datanode.data.dir</name>\n\t\t<value>/home/user/hdfsdata</value>\n\t</property>
+        \n\t<property>\n\t\t<name>dfs.blocksize</name>\n\t\t<value>64m</value>\n\t\t<description>Block size</description>\n\t</property>
+        \n\t<property>\n\t\t<name>dfs.webhdfs.enabled</name>\n\t\t<value>true</value>\n\t</property>
+        \n\t<property>\n\t\t<name>dfs.support.append</name>\n\t\t<value>true</value>\n\t</property>"
 		INPUT_HDFS_SITE_CONTENT=$(echo $HDFS_SITE_CONTENT | sed 's/\//\\\//g')
 		sed -i "/<\/configuration>/ s/.*/${INPUT_HDFS_SITE_CONTENT}\n&/" ${HADOOP_HOME}/etc/hadoop/hdfs-site.xml
 
@@ -90,10 +90,10 @@ install_spark() {
     echo "SPARK_WORKER_CORES=1" >> spark-env.sh
 	echo "SPARK_WORKER_MEMORY=1g" >> spark-env.sh
     echo "export SPARK_MASTER_HOST=localhost" >> spark-env.sh
-	echo "JAVA_HOME=\${JAVA_HOME}" >> spark-env.sh
+	echo "JAVA_HOME=${JAVA_HOME}" >> spark-env.sh
 
     cp spark-defaults.conf.template spark-defaults.conf
-	echo "spark.master\t\tspark://master:7077" >> spark-defaults.conf
+	echo "spark.master\t\tspark://localhost:7077" >> spark-defaults.conf #master
 	echo "spark.submit.deployMode\t\tclient" >> spark-defaults.conf
 	echo "spark.executor.instances\t\t1" >> spark-defaults.conf
 	echo "spark.executor.cores\t\t1" >> spark-defaults.conf
