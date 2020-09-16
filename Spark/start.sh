@@ -15,10 +15,9 @@ start_system() {
     echo "export JAVA_HOME=${JAVA_HOME}" >> ${HADOOP_HOME}/etc/hadoop/hadoop-env.sh 
 
     #tail -10 ${HADOOP_HOME}/etc/hadoop/hadoop-env.sh
-    
-    cat ${HADOOP_HOME}/etc/hadoop/hdfs-site.xml
-    cat ${SPARK_HOME}/conf/spark-env.sh
-    
+    #cat ${HADOOP_HOME}/etc/hadoop/hdfs-site.xml
+    #cat ${SPARK_HOME}/conf/spark-env.sh
+
     #sudo ${HADOOP_HOME}/sbin/stop-dfs.sh
     #sudo ${SPARK_HOME}/sbin/stop-all.sh
     sudo ${HADOOP_HOME}/bin/hdfs namenode -format -y

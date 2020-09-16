@@ -5,7 +5,7 @@ LABEL mainteiner = nikoshet 'https://github.com/nikoshet/monitoring-spark-on-doc
 
 # Environment Variables
 ENV LANG                        en_US.UTF-8
-ENV LC_ALL                      en_US.UTF-8
+ENV LC_ALL                      UTF-8
 # JAVA
 ENV JAVA_HOME                   /usr/lib/jvm/java-8-openjdk-amd64/
 # HADOOP
@@ -15,8 +15,7 @@ ENV HADOOP_HOME                 hadoop-${HADOOP_VERSION}
 ENV HADOOP_CONF_DIR             ${HADOOP_HOME}/etc/hadoop
 # SPARK
 ENV SPARK_VERSION               3.0.1
-#ENV SPARK_HOME                  spark-${SPARK_VERSION}
-ENV SPARK_HOME               spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION_FOR_SPARK}
+ENV SPARK_HOME                  spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION_FOR_SPARK}
 ENV PYSPARK_PYTHON              python3
 
 ENV PYTHONHASHSEED 1
@@ -31,18 +30,14 @@ COPY start.sh ./
 RUN apt-get update \
     && apt-get upgrade -y \
 # Set locales
-    #&& export LANGUAGE=${LANG} \
-    #&& export LANG=${LANG} \
     && apt-get install -y locales \
-    #&& locale-gen ${LANG}  \
-    #&& echo "export LANG=${LANG}" > /etc/profile.d/locale.sh \
-
     && dpkg-reconfigure locales \
     && echo "LC_ALL=${LANG}" >> /etc/environment \
-    && echo "${LANG} UTF-8" >> /etc/locale.gen \
+    && echo "${LANG} ${LC_ALL}" >> /etc/locale.gen \
     && echo "LANG=${LANG}" > /etc/locale.conf \
 
     && locale-gen en_US.UTF-8 \
+
 # Export Env Variables
     && export JAVA_HOME=${JAVA_HOME} \
     && export PATH=${JAVA_HOME}/jre/bin:$PATH \
@@ -53,7 +48,6 @@ RUN apt-get update \
     && export SPARK_VERSION=${SPARK_VERSION} \
     && export SPARK_HOME=${SPARK_HOME} \
     && export PYSPARK_PYTHON=${PYSPARK_PYTHON} \
-    #&& export SPARK_PACKAGE=${SPARK_PACKAGE} \
 # Bug fix for openjdk-8 on Debian
     && mkdir -p /usr/share/man/man1 \
 # Installations
