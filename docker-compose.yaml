@@ -24,8 +24,8 @@ services:
         restart: unless-stopped
         ports: 
             - 9090:9090
-        expose:
-            - 9090
+        #expose:
+        #    - 9090
         command:
             - '--config.file=/etc/prometheus/prometheus.yml'
         volumes:
@@ -62,17 +62,12 @@ services:
         build:
             context: ./Spark
             dockerfile: Dockerfile
-        container_name: master
+        container_name: spark
         hostname: master
         ports:
             - 8080:8080
             - 8081:8081
-            - 7077:7077
             - 4040:4040
-            - 50070:50070 #Hadoop
-            #- '22:22' # ??
+            - 9870:9870 #Hadoop Site
         environment:
             - PYTHONUNBUFFERED=1
-            - "HDFS_NAMENODE_USER=root"
-            - "HDFS_DATANODE_USER=root"
-            - "HDFS_SECONDARYNAMENODE_USER=root"

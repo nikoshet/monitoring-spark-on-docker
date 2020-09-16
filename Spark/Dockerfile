@@ -25,6 +25,8 @@ ENV PYTHONHASHSEED 1
 WORKDIR .
 COPY install.sh ./
 COPY start.sh ./
+COPY run_app.sh ./
+COPY app.py ./
 
 # Updates
 RUN apt-get update \
@@ -35,9 +37,7 @@ RUN apt-get update \
     && echo "LC_ALL=${LANG}" >> /etc/environment \
     && echo "${LANG} ${LC_ALL}" >> /etc/locale.gen \
     && echo "LANG=${LANG}" > /etc/locale.conf \
-
-    && locale-gen en_US.UTF-8 \
-
+    && locale-gen ${LANG} \
 # Export Env Variables
     && export JAVA_HOME=${JAVA_HOME} \
     && export PATH=${JAVA_HOME}/jre/bin:$PATH \
@@ -51,8 +51,6 @@ RUN apt-get update \
 # Bug fix for openjdk-8 on Debian
     && mkdir -p /usr/share/man/man1 \
 # Installations
-    #apt-get install -y \
-    #   openjdk-8-jdk-headless \
     && apt-get install -y \
         wget \
         openssh-client \
@@ -61,23 +59,17 @@ RUN apt-get update \
         sudo \
         scala \
         git \
-    #&& ls \
     && chmod +x *.sh \
     && ./install.sh \
 # Cleaning
     && apt-get clean all \
     && apt autoremove -y \
-    && rm -rf /var/lib/apt/lists/*
-
-# passwordless ssh
-RUN ssh-keygen -q -N "" -t rsa -f /root/.ssh/id_rsa
-RUN mkdir -p /root/.ssh
-RUN cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys
-RUN chmod 0600 ~/.ssh/authorized_keys
-
+    && rm -rf /var/lib/apt/lists/* \
+# Passwordless ssh
+    && ssh-keygen -q -N "" -t rsa -f /root/.ssh/id_rsa \
+    && mkdir -p /root/.ssh \
+    && cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys \
+    && chmod 0600 ~/.ssh/authorized_keys 
 
 # Final Command
-#WORKDIR $SPARK_HOME
-ENTRYPOINT ["sh","-c","./start.sh && ${SPARK_HOME}/bin/spark-submit --class org.apache.spark.examples.JavaSparkPi ${SPARK_HOME}/examples/jars/spark-examples_2.12-3.0.1.jar"]
-
-#ENTRYPOINT ["sh","-c","./start.sh && ${SPARK_HOME}/bin/pyspark"]
+ENTRYPOINT ["sh","-c","./start.sh && ./run_app.sh"] 
