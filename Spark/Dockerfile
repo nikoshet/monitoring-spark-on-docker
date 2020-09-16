@@ -27,6 +27,7 @@ COPY install.sh ./
 COPY start.sh ./
 COPY run_app.sh ./
 COPY app.py ./
+COPY metrics.properties ./
 
 # Updates
 RUN apt-get update \

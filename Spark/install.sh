@@ -68,6 +68,8 @@ install_spark() {
 	
 	echo "master" > slaves
 	#echo "slave" >> slaves
+    cd /
+    mv metrics.properties ${SPARK_HOME}/conf/metrics.properties
 }
 
 

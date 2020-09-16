@@ -1,5 +1,8 @@
 version: '3.1'
 
+networks:
+    back-tier:
+
 services:
     # Grafana Service
     grafana:
@@ -16,6 +19,8 @@ services:
             - ./Grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards 
         depends_on:
             - prometheus
+        networks:
+            - back-tier
     
     # Prometheus Service   
     prometheus:
@@ -24,8 +29,6 @@ services:
         restart: unless-stopped
         ports: 
             - 9090:9090
-        #expose:
-        #    - 9090
         command:
             - '--config.file=/etc/prometheus/prometheus.yml'
         volumes:
@@ -33,7 +36,8 @@ services:
             - ./Prometheus/prometheus_db:/prometheus/data:rw #needs command 'sudo chmod -R 777 Prometheus/prometheus_db'
         depends_on:
             - node-exporter
-            - cadvisor
+        networks:
+            - back-tier
 
     # Node-Exporter Service  
     node-exporter:
@@ -42,20 +46,8 @@ services:
         ports:
             - 9100:9100
         restart: unless-stopped
-
-    # Cadvisor Service 
-    cadvisor:
-        image: google/cadvisor:v0.33.0
-        container_name: cadvisor
-        restart:  unless-stopped
-        ports:
-            - 9080:8080
-        volumes:
-            - /:/rootfs:ro
-            - /var/run:/var/run:rw
-            - /sys:/sys:ro
-            - /var/lib/docker/:/var/lib/docker:ro
-        privileged: true
+        networks:
+            - back-tier
 
     # Spark
     spark-master:
@@ -65,9 +57,11 @@ services:
         container_name: spark
         hostname: master
         ports:
-            - 8080:8080
-            - 8081:8081
-            - 4040:4040
-            - 9870:9870 #Hadoop Site
+            - 8080:8080 # Master
+            - 8081:8081 # Worker
+            - 4040:4040 # Driver
+            - 9870:9870 # Hadoop Site
         environment:
             - PYTHONUNBUFFERED=1
+        networks:
+            - back-tier

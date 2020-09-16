@@ -34,13 +34,60 @@ scrape_configs:
       - targets: ['localhost:9090'] 
     
 ###############
-# Spark Master #  
+# Node-exporter #  
 ###############
-  - job_name: 'spark'
+  - job_name: 'node-exporter'
     scrape_interval: 10s
     static_configs:
-      - targets: ['localhost:4040','localhost:8080','localhost:9100']
+      - targets: ['node-exporter:9100']
         labels:
           group:  'spark'
-          instance: 'spark-master'
-    metrics_path: '/api/v1'
+          instance: 'node-exporter'
+
+###############
+# Spark Master #  
+###############
+  - job_name: 'spark-master'
+    scrape_interval: 10s
+    metrics_path: '/metrics/master/prometheus'
+    static_configs:
+      - targets: ['spark:8080']
+        labels:
+          group:  'spark'
+          instance: 'master'
+
+###############
+# Spark Worker #  
+###############
+  - job_name: 'spark-worker'
+    scrape_interval: 10s
+    metrics_path: '/metrics/prometheus'
+    static_configs:
+      - targets: ['spark:8081']
+        labels:
+          group:  'spark'
+          instance: 'worker'
+
+###############
+# Spark Applications #  
+###############
+  - job_name: 'spark-applications'
+    scrape_interval: 10s
+    metrics_path: '/metrics/applications/prometheus'
+    static_configs:
+      - targets: ['spark:8080']
+        labels:
+          group:  'spark'
+          instance: 'applications'
+
+###############
+# Spark Driver #  
+###############
+  - job_name: 'spark-driver'
+    scrape_interval: 10s
+    metrics_path: '/metrics/prometheus/'
+    static_configs:
+      - targets: ['spark:4040']
+        labels:
+          group:  'spark'
+          instance: 'driver'
