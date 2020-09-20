@@ -25,11 +25,12 @@ docker-compose build && docker-compose up
 ```
 ## Screenshots
 - Example dashboard for Spark Metrics:
-<div style="display:block;margin:auto;height:80%;width:80%">
+<div style="display:block;margin:auto;height:80%;width:80% text-align:center;">
   <img src="./screenshot/spark-dashboard.png">
 </div>
+
 - All available services from Service Discovery in Prometheus:
-<div style="display:block;margin:auto;height:40%;width:40%">
+<div style="display:block;margin:auto;height:40%;width:40%; text-align:center;">
   <img src="./screenshot/services.png">
 </div>
 
