@@ -53,17 +53,17 @@ install_spark() {
     # Set configuration for spark
     cd ${SPARK_HOME}/conf
     cp spark-env.sh.template spark-env.sh
-    echo "SPARK_WORKER_CORES=1" >> spark-env.sh
-	echo "SPARK_WORKER_MEMORY=1g" >> spark-env.sh
+    echo "SPARK_WORKER_CORES=2" >> spark-env.sh
+	echo "SPARK_WORKER_MEMORY=2g" >> spark-env.sh
     echo "export SPARK_MASTER_HOST=localhost" >> spark-env.sh
 	echo "JAVA_HOME=${JAVA_HOME}" >> spark-env.sh
 
     cp spark-defaults.conf.template spark-defaults.conf
-	echo "spark.master\t\tspark://localhost:7077" >> spark-defaults.conf #master
+	echo "spark.master\t\tspark://master:7077" >> spark-defaults.conf #localhost
 	echo "spark.submit.deployMode\t\tclient" >> spark-defaults.conf
 	echo "spark.executor.instances\t\t1" >> spark-defaults.conf
-	echo "spark.executor.cores\t\t1" >> spark-defaults.conf
-	echo "spark.executor.memory\t\t1g" >> spark-defaults.conf
+	echo "spark.executor.cores\t\t2" >> spark-defaults.conf
+	echo "spark.executor.memory\t\t2g" >> spark-defaults.conf
 	echo "spark.driver.memory\t\t512m" >> spark-defaults.conf
 	
 	echo "master" > slaves

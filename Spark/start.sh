@@ -12,9 +12,6 @@ start_system() {
     echo 'export HADOOP_OPTS="-Djava.library.path=$HADOOP_HOME/lib/native"' >> ${HADOOP_HOME}/etc/hadoop/hadoop-env.sh 
     echo "export JAVA_HOME=${JAVA_HOME}" >> ${HADOOP_HOME}/etc/hadoop/hadoop-env.sh 
 
-
-    #sudo ${HADOOP_HOME}/sbin/stop-dfs.sh
-    #sudo ${SPARK_HOME}/sbin/stop-all.sh
     sudo ${HADOOP_HOME}/bin/hdfs namenode -format -y
     sudo ${HADOOP_HOME}/sbin/start-dfs.sh
     sudo ${SPARK_HOME}/sbin/start-all.sh
