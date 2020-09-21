@@ -6,7 +6,7 @@ The goal of this project is to:
 - Use Prometheus to get metrics from Spark applications and Node-exporter
 - Use Grafana to display the metrics collected
 
-## Configurations
+## Configuration
 - Hadoop Configurations for core-sites.xml and hadoop-env.sh are set [here](https://github.com/nikoshet/monitoring-spark-on-docker/blob/0b363ce7f0586ea9041e270e1a4fb7abfb6e52b5/Spark/install.sh#L27).
 - Spark Configurations for spark-env.sh and spark-defaults.conf are set [here](https://github.com/nikoshet/monitoring-spark-on-docker/blob/0b363ce7f0586ea9041e270e1a4fb7abfb6e52b5/Spark/install.sh#L53).
 - Environment variables for Spark/Hadoop versions and library paths are set [here](https://github.com/nikoshet/monitoring-spark-on-docker/blob/0b363ce7f0586ea9041e270e1a4fb7abfb6e52b5/Spark/Dockerfile#L6).
