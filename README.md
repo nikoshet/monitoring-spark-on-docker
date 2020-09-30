@@ -17,6 +17,7 @@ The goal of this project is to:
 - The containerized environment consists of a Master, a Worker, a DataNode, a NameNode and a SecondaryNameNode.
 - To track metrics across Spark apps, appName needs to be set up or else the spark.metrics.namespace will be spark.app.id that changes after every invocation of the app.
 - Main Python Application running is app.py that is an example application computing number pi. For your own application/use of HDFS please do changes accordingly.
+- Dockerfile for Spark/Hadoop is also available [here](https://hub.docker.com/repository/docker/nikoshet/spark-hadoop/general) in order to add it in docker-compose.yaml file as seen [here](https://github.com/nikoshet/monitoring-spark-on-docker/blob/9aa1a7bbfd73c6b4e6eacf9ebe85d975ea428524/docker-compose.yaml#L54).
 
 ## Usage
 Assuming that Docker is installed, simply execute the following command to build and run the Docker Containers:

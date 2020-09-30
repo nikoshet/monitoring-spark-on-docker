@@ -1,7 +1,7 @@
 version: '3.1'
 
 networks:
-    back-tier:
+    net:
 
 services:
     # Grafana Service
@@ -20,7 +20,7 @@ services:
         depends_on:
             - prometheus
         networks:
-            - back-tier
+            - net
     
     # Prometheus Service   
     prometheus:
@@ -37,7 +37,7 @@ services:
         depends_on:
             - node-exporter
         networks:
-            - back-tier
+            - net
 
     # Node-Exporter Service  
     node-exporter:
@@ -47,10 +47,11 @@ services:
             - 9100:9100
         restart: unless-stopped
         networks:
-            - back-tier
+            - net
 
     # Spark
     spark-master:
+        # image: nikoshet/spark-hadoop:latest
         build:
             context: ./Spark
             dockerfile: Dockerfile
@@ -64,4 +65,4 @@ services:
         environment:
             - PYTHONUNBUFFERED=1
         networks:
-            - back-tier
+            - net

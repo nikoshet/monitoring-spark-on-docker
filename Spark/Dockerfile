@@ -1,7 +1,7 @@
 # Debian 9 (Stretch) Base Image
 FROM debian:9-slim
 
-LABEL mainteiner = nikoshet 'https://github.com/nikoshet/monitoring-spark-on-docker'
+LABEL maintainer = nikoshet 'https://github.com/nikoshet/monitoring-spark-on-docker'
 
 # Environment Variables
 ENV LANG                        en_US.UTF-8
